@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { useIntl } from "react-intl";
 
 function App() {
+  const intl = useIntl();
+
+  const [locale, setLocale] = useState(localStorage.getItem("locale") ?? "ko");
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>{intl.formatMessage({ id: "apple" })}</p>
+      <p>{intl.formatMessage({ id: "banana" })}</p>
+      <p>{intl.formatMessage({ id: "coconut" })}</p>
+
+      <select
+        value={locale}
+        onChange={(e) => {
+          setLocale(e.target.value);
+          localStorage.setItem("locale", e.target.value);
+          window.location.reload();
+        }}
+      >
+        <option value="ko">{intl.formatMessage({ id: "ko" })}</option>
+        <option value="en-US">{intl.formatMessage({ id: "en" })}</option>
+        <option value="fr-FR">{intl.formatMessage({ id: "fr" })}</option>
+      </select>
     </div>
   );
 }
